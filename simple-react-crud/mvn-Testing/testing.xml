@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="User Management Test Suite">
+    <test name="React App Functional UI Tests">
+        <classes>
+            <class name="tests.LoginTests" />
+            <class name="tests.UserCrudTests" />
+        </classes>
+    </test>
+</suite>

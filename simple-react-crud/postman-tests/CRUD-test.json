@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "fa9411c3-2d28-4235-b654-c631010f804b",
+		"name": "CRUD-Login-Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33211018",
+		"_collection_link": "https://testing-crud-operations.postman.co/workspace/Ahmad~6978e092-bea8-407f-98eb-2fffb6370b3f/collection/33211018-fa9411c3-2d28-4235-b654-c631010f804b?action=share&source=collection_link&creator=33211018"
+	},
+	"item": [
+		{
+			"name": "LoginTesting",
+			"item": [
+				{
+					"name": "InvalidLogin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message is invalid credentials\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.include(\"Invalid\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"ahmad\",\r\n  \"password\": \"1234\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ValidLogin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Login message correct\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"Login successful!\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"Ahmad12354%#@#\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD-Testing",
+			"item": [
+				{
+					"name": "Get-Items",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct user details\", () => {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.name).to.eql(\"Ahmad Test\");\r",
+									"    pm.expect(res.email).to.eql(\"ahmad@test.com\");\r",
+									"    pm.expect(res.role).to.eql(\"admin\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/items",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User is returned\", () => {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res).to.have.property(\"id\");\r",
+									"    pm.expect(res.name).to.eql(\"Ahmad Test\");\r",
+									"    pm.expect(res.email).to.eql(\"ahmad@test.com\");\r",
+									"    pm.expect(res.role).to.eql(\"admin\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Test\",\r\n  \"email\": \"test@gmail.com\",\r\n  \"role\": \"User\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/items",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update-User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has updated fields\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"id\");\r",
+									"  pm.expect(res.name).to.eql(\"Ahmad Updated\");\r",
+									"  pm.expect(res.email).to.eql(\"ahmad@example.com\");\r",
+									"  pm.expect(res.role).to.eql(\"admin\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali\",\r\n  \"email\": \"ali@example.com\",\r\n  \"role\": \"admin\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete-User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 200 or 204\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has message or is empty\", () => {\r",
+									"  const res = pm.response.text();\r",
+									"  pm.expect(res.length >= 0).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:5000",
+			"type": "default"
+		}
+	]
+}
